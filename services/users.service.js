@@ -32,7 +32,22 @@ class UsersService {
 
   findOne(){}
 
-  update(){}
+  update(id, body){
+    const index = this.users.findIndex(item => item.id === id)
+    if (index == -1) {
+      return "not found"
+    }
+    const oldUser = this.users[index]
+    const newUser = {
+      id,
+      name: body.name || oldUser.name,
+      lastname: body.lastname || oldUser.lastname,
+      image: body.image || oldUser.image
+    }
+
+    this.users[index] = newUser
+    return "updated"
+  }
 
   delete(){}
 

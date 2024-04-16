@@ -11,17 +11,6 @@ router.get('/', (req, res)=> {
 })
 
 
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-
-  res.json({
-    id,
-    name: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    image: faker.image.avatar(),
-  });
-});
-
 router.post('/', (req, res) => {
   const body = req.body;
   const user = service.create(body)
@@ -30,10 +19,8 @@ router.post('/', (req, res) => {
 
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: 'updated',
-    id
-  })
+  const body = req.body;
+  res.json(service.update(id, body))
 })
 
 router.delete('/:id', (req, res) => {
