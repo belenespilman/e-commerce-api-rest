@@ -30,7 +30,10 @@ class UsersService {
     return this.users
   }
 
-  findOne(){}
+  findOne(id){
+    const result = this.users.find(item => item.id === id)
+    return result
+  }
 
   update(id, body){
     const index = this.users.findIndex(item => item.id === id)
@@ -49,7 +52,14 @@ class UsersService {
     return "updated"
   }
 
-  delete(){}
+  delete(id){
+    const index = this.users.findIndex(item => item.id === id)
+    if (index == -1) {
+      return "no user was found"
+    }
+    this.users.splice(index, 1);
+    return "deleted"
+  }
 
 
 

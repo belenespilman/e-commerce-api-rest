@@ -10,10 +10,6 @@ router.get('/', (req, res) => {
 })
 
 
-router.get('/filter', (req, res) => {
-res.send('im a filter');
-})
-
 
 router.get('/:id', (req, res)=> {
   const { id } = req.params;
@@ -25,30 +21,21 @@ router.get('/:id', (req, res)=> {
 
 router.post('/', (req, res) => {
   const body= req.body;
-  res.status(201).json({
-    message: 'created',
-    data: body
-  });
+  const newProduct = service.create(body);
+  res.json(newProduct)
 })
 
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    message: 'update',
-    data: body,
-    id,
-  });
+  res.json(service.update(id, body));
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-
-  res.json({
-    message: 'deleted',
-    id,
+  res.json(service.delete(id));
   });
-});
+
 
 
 module.exports = router;

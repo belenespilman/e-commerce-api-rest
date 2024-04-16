@@ -19,7 +19,13 @@ class ProductsService {
   }
  }
 
-create (){}
+create (body){
+  const newProduct = {id: faker.string.uuid(),
+    ...body}
+  this.products.push(newProduct)
+  return newProduct
+
+}
 
 find(){
   return this.products;
@@ -29,9 +35,31 @@ findOne(id){
   return this.products.find(item => item.id === id)
 }
 
-update(){}
+update(id, body){
+  const index = this.products.findIndex(item => item.id === id)
+  if (index == -1) {
+    return "product not found"
+  }
+    const oldProduct= this.products[index]
+    const newProduct = {
+      id,
+      name: body.name || oldProduct.name,
+      price: body.price || oldProduct.price,
+      image: body.image || oldProduct.image
+    }
+    this.products[index] = newProduct
+    return "updated"
 
-delete(){}
+}
+
+delete(id){
+  const index = this.categories.findIndex(item => item.id === id)
+  if (index == -1) {
+    return "no product found"
+  }
+  this.categories.splice(index, 1);
+return "deleted"
+}
 
 }
 

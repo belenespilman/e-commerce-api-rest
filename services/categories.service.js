@@ -43,8 +43,6 @@ class CategoriesService{
 
   delete(id){
     const index = this.categories.findIndex(item => item.id === id)
-    console.log(index)
-    console.log(this.categories[index])
     if (index == -1) {
       return "no category found"
   }
