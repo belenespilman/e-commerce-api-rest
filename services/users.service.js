@@ -19,23 +19,23 @@ class UsersService {
     }
   }
 
-  create(body){
+  async create(body){
     const user = {name: body.name, lastname: body.lastname , image: body.image,  id: faker.string.uuid()}
     this.users.push(user)
     return user
 
       }
 
-  find (){
+  async find (){
     return this.users
   }
 
-  findOne(id){
+  async findOne(id){
     const result = this.users.find(item => item.id === id)
     return result
   }
 
-  update(id, body){
+  async update(id, body){
     const index = this.users.findIndex(item => item.id === id)
     if (index == -1) {
       return "not found"
@@ -52,7 +52,7 @@ class UsersService {
     return "updated"
   }
 
-  delete(id){
+  async delete(id){
     const index = this.users.findIndex(item => item.id === id)
     if (index == -1) {
       return "no user was found"

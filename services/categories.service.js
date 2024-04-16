@@ -17,22 +17,22 @@ class CategoriesService{
     }
   }
 
-  create(body){
+  async create(body){
     const category = { name: body.name, id: faker.string.uuid() }
     this.categories.push(category)
     return category
   }
 
-  find(){
+  async find(){
     return this.categories;
   }
 
-  findOne(id){
+  async findOne(id){
     const result = this.categories.find(item => item.id === id)
     return result
   }
 
-  update(id, body){
+  async update(id, body){
     const index = this.categories.findIndex(item => item.id === id)
     if (index == -1) {
       return "no category found"
@@ -41,7 +41,7 @@ class CategoriesService{
     return "updated"
   }
 
-  delete(id){
+  async delete(id){
     const index = this.categories.findIndex(item => item.id === id)
     if (index == -1) {
       return "no category found"

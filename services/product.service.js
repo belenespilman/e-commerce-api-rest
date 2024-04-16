@@ -19,7 +19,7 @@ class ProductsService {
   }
  }
 
-create (body){
+async create (body){
   const newProduct = {id: faker.string.uuid(),
     ...body}
   this.products.push(newProduct)
@@ -27,18 +27,18 @@ create (body){
 
 }
 
-find(){
+async find(){
   return this.products;
 }
 
-findOne(id){
+async findOne(id){
   return this.products.find(item => item.id === id)
 }
 
-update(id, body){
+async update(id, body){
   const index = this.products.findIndex(item => item.id === id)
   if (index == -1) {
-    return "product not found"
+    throw new Error('product not found')
   }
     const oldProduct= this.products[index]
     const newProduct = {
@@ -48,11 +48,11 @@ update(id, body){
       image: body.image || oldProduct.image
     }
     this.products[index] = newProduct
-    return "updated"
+    return newProduct
 
 }
 
-delete(id){
+async delete(id){
   const index = this.categories.findIndex(item => item.id === id)
   if (index == -1) {
     return "no product found"
