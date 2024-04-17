@@ -1,4 +1,5 @@
 const { faker } = require('@faker-js/faker')
+const boom = require('@hapi/boom');
 
 class ProductsService {
 //gestionar productos
@@ -14,7 +15,8 @@ class ProductsService {
       id: faker.string.uuid(),
       name:faker.commerce.productName(),
       price:parseInt(faker.commerce.price(), 10),
-      image: faker.image.avatar()
+      image: faker.image.avatar(),
+      isBlocked: faker.datatype.boolean()
     });
   }
  }
@@ -28,17 +30,28 @@ async create (body){
 }
 
 async find(){
-  return this.products;
+  const products =  this.products;
+  if (!products) {
+    throw boom.notFound("Products not found");
+  }
+  return products;
 }
 
 async findOne(id){
-  return this.products.find(item => item.id === id)
+  const product = this.products.find(item => item.id === id)
+  if (!product) {
+    throw boom.notFound('Product not found');
+  }
+  if (product.isBlocked) {
+    throw boom.conflict('This product is blocked');
+  }
+  return product;
 }
 
 async update(id, body){
   const index = this.products.findIndex(item => item.id === id)
   if (index == -1) {
-    throw new Error('product not found')
+    throw boom.notFound("product not found");
   }
     const oldProduct= this.products[index]
     const newProduct = {
@@ -48,14 +61,14 @@ async update(id, body){
       image: body.image || oldProduct.image
     }
     this.products[index] = newProduct
-    return newProduct
+    return newProduct;
 
 }
 
 async delete(id){
   const index = this.categories.findIndex(item => item.id === id)
   if (index == -1) {
-    return "no product found"
+    throw boom.notFound('product not found');
   }
   this.categories.splice(index, 1);
 return "deleted"
