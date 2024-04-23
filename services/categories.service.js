@@ -1,11 +1,7 @@
-const { faker } =require("@faker-js/faker");
+
 
 class CategoriesService{
-  constructor(){
-    this.categories= [];
-    this.generate();
 
-  }
 
   generate(){
     const limit = 10;
