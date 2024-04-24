@@ -1,4 +1,4 @@
-const { Model, DataTypes, Sequelize} = require('sequelize')
+const { Model, DataTypes, Sequelize} = require('sequelize');
 
 const USER_TABLE = 'users';
 
@@ -22,6 +22,12 @@ password: {
 
 },
 
+role: {
+  allowNull: false,
+  type: DataTypes.STRING,
+  defaultValue: 'customer'
+},
+
 createdAt: {
   allowNull: false,
   type: DataTypes.DATE,
@@ -31,8 +37,11 @@ createdAt: {
 }
 
 class User extends Model {
-  static associate() {
-    //models
+  static associate(models) {
+    this.hasOne(models.Customer, {
+      as: 'customer',
+      foreignKey: 'userId'
+    })
 
   }
 

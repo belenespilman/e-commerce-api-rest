@@ -1,51 +1,44 @@
-
+const { models } = require('./../libs/sequelize')
 
 class CategoriesService{
 
 
-  generate(){
-    const limit = 10;
-    for (let i=0; i < limit; i++){
-      this.categories.push({
-        name: faker.word.sample(),
-        id: faker.string.uuid(),
-      })
-    }
-  }
 
   async create(body){
-    const category = { name: body.name, id: faker.string.uuid() }
-    this.categories.push(category)
-    return category
+   const res = await models.Categories.create(body);
+   return res;
   }
 
   async find(){
-    return this.categories;
+    const res = await models.Categories.findAll();
+    return res;
   }
 
   async findOne(id){
-    const result = this.categories.find(item => item.id === id)
-    return result
+    const res= await models.Categories.findOne({
+      where: {
+        id : id
+      }
+    });
+    return res;
   }
 
   async update(id, body){
-    const index = this.categories.findIndex(item => item.id === id)
-    if (index == -1) {
-      return "no category found"
-    }
-    this.categories[index] = { id, name: body.name }
-    return "updated"
+    const res = await models.Categories.update(body, {
+      where: {
+        id: id
+      }
+    })
+    return res;
   }
 
   async delete(id){
-    const index = this.categories.findIndex(item => item.id === id)
-    if (index == -1) {
-      return "no category found"
-  }
-  this.categories.splice(index, 1);
-  return "deleted"
-
-
+    const res = await models.Categories.destroy({
+      where: {
+        id: id
+      }
+    })
+    return res;
   }
 }
 

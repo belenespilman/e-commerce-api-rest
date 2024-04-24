@@ -5,13 +5,15 @@ class UsersService {
 
 
   async create(body){
-    const res = await models.Users.create(body)
+    const res = await models.User.create(body)
     return res
 
       }
 
   async find () {
-    const res = await models.User.findAll();
+    const res = await models.User.findAll({
+      include: ['customer']
+    });
     return res;
   }
 

@@ -13,13 +13,19 @@ const CategorySchema = {
     allowNull:false,
     type: DataTypes.STRING,
     unique: true
-
   },
 
 }
 
 class Category extends Model {
-  static associate (){}
+  static associate (model){
+    this.hasMany(model.Products, {
+      as: 'products',
+      foreignKey: 'categoryId'
+
+    })
+
+  }
 
   static config(sequelize) {
     return {
